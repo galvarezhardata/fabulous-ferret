@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -22,13 +23,18 @@ namespace fabulous_ferret.Controllers
         [HttpGet("{id}", Name = "Get")]
         public string Get(int id)
         {
-            return "value";
+            return $"value {id}";
         }
 
         // POST: api/Values
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] Value value)
         {
+            // German 004: Add data validation. 
+            if (!ModelState.IsValid)
+            {
+                throw new InvalidOperationException("Password length is not enough.");
+            }
         }
 
         // PUT: api/Values/5
@@ -42,5 +48,14 @@ namespace fabulous_ferret.Controllers
         public void Delete(int id)
         {
         }
+    }
+
+    // German 003: Add class Value with DataAnnotations on password property.
+    public class Value
+    {
+        public string nombre { get; set; }
+
+        [MinLength(12)]
+        public string password { get; set; }
     }
 }

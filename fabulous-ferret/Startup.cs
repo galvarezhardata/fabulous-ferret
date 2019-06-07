@@ -15,7 +15,7 @@ namespace fabulous_ferret
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            // German 2019-06-06 001: Setup MVC.
+            // German 001: Setup MVC.
             services.AddMvc();
         }
 
@@ -27,7 +27,7 @@ namespace fabulous_ferret
                 app.UseDeveloperExceptionPage();
             }
 
-            // German 2019-06-06 002: Use MVC.
+            // German 002: Use MVC.
             app.UseMvc();
 
             app.Run(async (context) =>
