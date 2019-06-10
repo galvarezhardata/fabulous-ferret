@@ -73,12 +73,24 @@ namespace fabulous_ferret.Controllers
 
         // POST: api/Users
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public void PostUser(User user)
         {
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            var _contextTransaction = _context.Database.BeginTransaction();
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Users.Add(user);
+                    _context.SaveChanges();
+                    _contextTransaction.Commit();
+                }
+                catch (Exception e)
+                {
+                    _contextTransaction.Rollback();
+                    throw new Exception(e.Message);
+                }
+            }
         }
 
         // DELETE: api/Users/5
